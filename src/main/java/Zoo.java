@@ -32,8 +32,13 @@ public class Zoo {
     }
 
     public void nouvelAnimal(Animal animal) {
-        for (TypeAnimal type : TypeAnimal.values()) {
-
+        Secteur secteur = secteursAnimaux.stream().filter(s -> s.obtenirType() == animal.getTypeAnimal()).findFirst().orElse(null);
+        if(secteur == null) {
+            this.ajouterSecteur(animal.getTypeAnimal());
+        }
+        secteur = secteursAnimaux.stream().filter(s -> s.obtenirType() == animal.getTypeAnimal()).findFirst().orElse(null);
+        if(secteur != null) {
+            secteur.ajouterAnimal(animal);
         }
     }
 

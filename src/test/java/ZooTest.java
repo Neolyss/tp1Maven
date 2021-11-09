@@ -1,6 +1,8 @@
 import org.junit.Before;
 import org.junit.Test;
 
+import static org.junit.Assert.*;
+
 public class ZooTest {
 
     private Zoo zoo;
@@ -8,10 +10,6 @@ public class ZooTest {
     @Before
     public void initZoo() {
         this.zoo = new Zoo(2);
-        zoo.ajouterSecteur(TypeAnimal.CHAT);
-        zoo.ajouterSecteur(TypeAnimal.TIGRE);
-        zoo.nouvelAnimal(new Chat("Titi", TypeAnimal.CHAT));
-        zoo.nouvelAnimal(new Tigre("OwO", TypeAnimal.TIGRE));
     }
 
     @Test(expected=LimiteVisiteurException.class)
@@ -23,8 +21,25 @@ public class ZooTest {
 
     @Test
     public void testNouvelAnimal() {
-        //Chien woof = new Chien("UwU",TypeAnimal.CHIEN);
-        //zoo.nouvelAnimal(woof);
+        Chien woof = new Chien("UwU",TypeAnimal.CHIEN);
+        zoo.nouvelAnimal(woof);
+        assertEquals(1, zoo.getNombreAnimaux());
+        for(Secteur secteur : zoo.getSecteursAnimaux()) {
+            for(Animal animal : secteur.getAnimauxDansSecteur()) {
+                if(woof == animal) {
+                    assertEquals(secteur.obtenirType(), woof.getTypeAnimal());
+                }
+            }
+        }
+    }
 
+    @Test
+    public void testAjoutAnimalSansAjoutSecteur() {
+        Chien woof = new Chien("UwU",TypeAnimal.CHIEN);
+        zoo.ajouterSecteur(TypeAnimal.CHIEN);
+        zoo.nouvelAnimal(woof);
+        Chat chat = new Chat("oWo", TypeAnimal.CHAT);
+        zoo.nouvelAnimal(chat);
+        assertEquals(2, zoo.getSecteursAnimaux().size());
     }
 }
