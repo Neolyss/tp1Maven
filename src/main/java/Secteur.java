@@ -1,6 +1,6 @@
 import java.util.*;
 
-public class Secteur {
+public class Secteur implements Comparable<Secteur> {
 
     private TypeAnimal typeAnimauxDansSecteur;
     private List<Animal> animauxDansSecteur;
@@ -24,5 +24,10 @@ public class Secteur {
 
     public TypeAnimal obtenirType() {
         return typeAnimauxDansSecteur;
+    }
+
+    @Override
+    public int compareTo(Secteur s) {
+        return this.getNombreAnimaux() - s.getNombreAnimaux();
     }
 }
